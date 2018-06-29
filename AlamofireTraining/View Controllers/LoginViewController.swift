@@ -1,23 +1,18 @@
 //
-//  RegisterViewController.swift
+//  LoginViewController.swift
 //  AlamofireTraining
 //
-//  Created by Raphael Carletti on 6/28/18.
+//  Created by Raphael Carletti on 6/29/18.
 //  Copyright © 2018 Raphael Carletti. All rights reserved.
 //
 
 import UIKit
 import Alamofire
 
-class RegisterViewController: UIViewController {
-    @IBOutlet weak var registrationLabel: UILabel! {
+class LoginViewController: UIViewController {
+    @IBOutlet weak var loginLabel: UILabel! {
         didSet {
-            self.registrationLabel.textColor = UIColor.white
-        }
-    }
-    @IBOutlet weak var nameTextField: UITextField! {
-        didSet {
-            self.nameTextField.placeholder = "Name"
+            self.loginLabel.textColor = UIColor.white
         }
     }
     @IBOutlet weak var emailTextField: UITextField! {
@@ -32,23 +27,29 @@ class RegisterViewController: UIViewController {
             self.passwordTextField.placeholder = "Password"
         }
     }
-    @IBOutlet weak var confirmButton: UIButton! {
+    @IBOutlet weak var loginButton: UIButton! {
         didSet {
-            self.confirmButton.layer.cornerRadius = 5
-            self.confirmButton.layer.borderColor = UIColor.lightGray.cgColor
-            self.confirmButton.layer.borderWidth = 2
-            self.confirmButton.clipsToBounds = true
-            self.confirmButton.backgroundColor = UIColor.white
-            self.confirmButton.setTitleColor(UIColor.lightGray, for: .normal)
+            self.loginButton.layer.cornerRadius = 5
+            self.loginButton.layer.borderColor = UIColor.lightGray.cgColor
+            self.loginButton.layer.borderWidth = 2
+            self.loginButton.clipsToBounds = true
+            self.loginButton.backgroundColor = UIColor.white
+            self.loginButton.setTitleColor(UIColor.lightGray, for: .normal)
+        }
+    }
+    @IBOutlet weak var signUpButton: UIButton! {
+        didSet {
+            self.signUpButton.backgroundColor = UIColor.lightGray
+            self.signUpButton.setTitleColor(UIColor.white, for: .normal)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        
         self.view.backgroundColor = UIColor.orangeAlamofire
         self.navigationController?.navigationBar.backgroundColor = UIColor.white
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,13 +62,13 @@ class RegisterViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @IBAction func didTapConfirmButton(_ sender: Any) {
-        guard let name = self.nameTextField.text, let password = self.passwordTextField.text, let email = self.emailTextField.text else {
+    @IBAction func didTapLoginButton(_ sender: Any) {
+        guard let password = self.passwordTextField.text, let email = self.emailTextField.text else {
             return
         }
         
-        let parameters : Parameters = [SignUpParameters.name: name, SignUpParameters.email: email, SignUpParameters.password: password]
-        APIUserService.getSharedInstance().signUpUser(parameters: parameters) { (success, errorMessage) in
+        let parameters : Parameters = [SignInParameters.email: email, SignInParameters.password: password]
+        APIUserService.getSharedInstance().signInUser(parameters: parameters) { (success, errorMessage) in
             if success {
                 let alert = UIAlertController(title: "Deu bom", message: "Meus parabens", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) in
@@ -80,7 +81,13 @@ class RegisterViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
-        
     }
+    
+    @IBAction func didTapSignUpButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: StoryboardNames.login, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: ViewControllerName.register)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
 }

@@ -1,7 +1,5 @@
 //
 //  CoreDataService.swift
-//
-//
 //  Created by Raphael Carletti on 28/06/2018.
 //
 //
@@ -123,26 +121,29 @@ class CoreDataService {
         }
     }
     
-    func save(entityName: String, info dict: [String : Any]) -> NSManagedObject? {
+    func save(entityName: String, info dict: [String : Any], completion: @escaping (NSManagedObject?)->()) {
         let context = CoreDataService.getSharedInstance().getTempManagedObjectContext()
-        guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            print("Could not retrieve context")
-            return nil
-        }
-        
-        let coreDataObject = NSManagedObject(entity: entity, insertInto: context)
-        for (key, value) in dict {
-            coreDataObject.setValue(value, forKey: key)
-        }
-        
-        do {
-            try CoreDataService.getSharedInstance().saveTempContext(context: context)
-            return coreDataObject
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-            //FIXME: Should return nil?
-            return nil
-        }
+//        context.perform {
+            guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
+                print("Could not retrieve context")
+                completion(nil)
+                return
+            }
+            
+            let coreDataObject = NSManagedObject(entity: entity, insertInto: context)
+            for (key, value) in dict {
+                coreDataObject.setValue(value, forKey: key)
+            }
+            
+            do {
+                try CoreDataService.getSharedInstance().saveTempContext(context: context)
+                completion(coreDataObject)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+                //FIXME: Should return nil?
+                completion(nil)
+            }
+//        }
     }
     
     func delete(object: NSManagedObject) {
