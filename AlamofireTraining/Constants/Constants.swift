@@ -7,14 +7,21 @@
 //
 
 import Foundation
+import UIKit
 
 struct StoryboardNames {
     static let login = "Login"
-    static let showUsers = "ShowUsers"
+    static let showText = "ShowText"
+    static let tabBar = "TabBar"
 }
 
 struct ViewControllerName {
     static let register = "RegisterViewController"
+    static let fullText = "FullTextViewController"
+}
+
+struct TableCell {
+    static let cell = "cell"
 }
 
 struct AlamofireConstants {
@@ -22,6 +29,7 @@ struct AlamofireConstants {
     static let signUpUrl = "api/signup/"
     static let signInUrl = "api/login/"
     static let logoutUrl = "api/logout/"
+    static let getTextUrl = "api/get/text/"
     static let authorization = "Authorization"
     static let jsonResponse = "application/json"
     static let success = "success"
@@ -39,6 +47,10 @@ struct SignUpParameters {
 struct SignInParameters {
     static let email = "email"
     static let password = "password"
+}
+
+struct GetParameters {
+    static let locale = "Locale"
 }
 
 enum UserStatus: Int {
@@ -75,6 +87,23 @@ struct UserCoreDataAPIKeys {
     static let accessToken = "access_token"
     static let createdAt = "created_at"
     static let updatedAt = "updated_at"
+}
+
+struct TextCoreDataKeys {
+    static let text = "text"
+}
+
+struct TextCoreDataAPIKeys {
+    static let text = "data"
+}
+
+
+struct UserDefaultsKey {
+    static let currentUserUid = "CurrentUserUid"
+}
+
+struct ImageConstants {
+    static let textIcon = UIImage(named: "text_icon")
 }
 
 

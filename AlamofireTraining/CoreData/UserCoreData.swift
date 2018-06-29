@@ -19,7 +19,7 @@ class UserCoreData : NSManagedObject {
     @NSManaged public var id: Int16
     @NSManaged public var accessToken: String
     @NSManaged public var createdAt: Int32
-    @NSManaged public var upadatedAt: Int32
+    @NSManaged public var updatedAt: Int32
 }
 
 extension UserCoreData: CoreDataParseable {
@@ -30,11 +30,11 @@ extension UserCoreData: CoreDataParseable {
     }
     
     static func findIfExists(dict: [String : Any], completion: @escaping (UserCoreData?) -> ()) {
-        guard let userId = dict[UserCoreDataAPIKeys.id] as? String else {
+        guard let data = dict[AlamofireConstants.data] as? [String: Any], let userId = data[UserCoreDataAPIKeys.id] as? Int16 else {
             completion(nil)
             return
         }
-        let predicate = NSPredicate(format: "\(UserCoreDataKey.id) == %@", userId)
+        let predicate = NSPredicate(format: "id == %i", userId)
         CoreDataService.getSharedInstance().fetch(entityName: self.entityName, predicate: predicate) { (users) in
             guard let user = users.first as? UserCoreData else {
                 completion(nil)
@@ -84,36 +84,45 @@ extension UserCoreData: CoreDataParseable {
     }
     
     func merge(dict: [String : Any], completion: @escaping (Bool) -> ()) {
-        if let dict = dict[AlamofireConstants.data] as? [String: Any] {
-            var propertyDidChange = false
-            if let name = dict[UserCoreDataAPIKeys.name] as? String, self.name != name {
-                self.name = name
-                propertyDidChange = true
-            }
-            if let email = dict[UserCoreDataAPIKeys.email] as? String, self.email != email {
-                self.email = email
-                propertyDidChange = true
-            }
-            if let accessToken = dict[UserCoreDataAPIKeys.accessToken] as? String, self.accessToken != accessToken {
-                self.accessToken = accessToken
-                propertyDidChange = true
-            }
-            if let role = dict[UserCoreDataAPIKeys.role] as? Int16, self.role != role {
-                self.role = role
-                propertyDidChange = true
-            }
-            if let status = dict[UserCoreDataAPIKeys.status] as? Int16, self.status != status {
-                self.status = status
-                propertyDidChange = true
-            }
-            if let updatedAt = dict[UserCoreDataAPIKeys.updatedAt] as? Int32, self.upadatedAt != upadatedAt {
-                self.upadatedAt = updatedAt
-                propertyDidChange = true
-            }
-            if propertyDidChange {
-                completion(true)
-            } else {
-                completion(false)
+        let context = CoreDataService.getSharedInstance().getTempManagedObjectContext()
+        context.perform {
+            if let dict = dict[AlamofireConstants.data] as? [String: Any] {
+                var propertyDidChange = false
+                if let name = dict[UserCoreDataAPIKeys.name] as? String, self.name != name {
+                    self.name = name
+                    propertyDidChange = true
+                }
+                if let email = dict[UserCoreDataAPIKeys.email] as? String, self.email != email {
+                    self.email = email
+                    propertyDidChange = true
+                }
+                if let accessToken = dict[UserCoreDataAPIKeys.accessToken] as? String, self.accessToken != accessToken {
+                    self.accessToken = accessToken
+                    propertyDidChange = true
+                }
+                if let role = dict[UserCoreDataAPIKeys.role] as? Int16, self.role != role {
+                    self.role = role
+                    propertyDidChange = true
+                }
+                if let status = dict[UserCoreDataAPIKeys.status] as? Int16, self.status != status {
+                    self.status = status
+                    propertyDidChange = true
+                }
+                if let updatedAt = dict[UserCoreDataAPIKeys.updatedAt] as? Int32, self.updatedAt != updatedAt {
+                    self.updatedAt = updatedAt
+                    propertyDidChange = true
+                }
+                if propertyDidChange {
+                    do {
+                        try CoreDataService.getSharedInstance().saveTempContext(context: context, completion: { (success) in
+                            completion(success)
+                        })
+                    } catch {
+                        completion(false)
+                    }
+                } else {
+                    completion(false)
+                }
             }
         }
     }

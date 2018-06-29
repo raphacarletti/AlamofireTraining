@@ -67,8 +67,9 @@ class RegisterViewController: UIViewController {
         }
         
         let parameters : Parameters = [SignUpParameters.name: name, SignUpParameters.email: email, SignUpParameters.password: password]
-        APIUserService.getSharedInstance().signUpUser(parameters: parameters) { (success, errorMessage) in
-            if success {
+        APIUserService.getSharedInstance().signUpUser(parameters: parameters) { (success, errorMessage, uid) in
+            if success, let uid = uid {
+                UserDefaults.standard.set(uid, forKey: UserDefaultsKey.currentUserUid)
                 let alert = UIAlertController(title: "Deu bom", message: "Meus parabens", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) in
                     NavigationUtils.goToMain()

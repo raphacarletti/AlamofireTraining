@@ -20,7 +20,7 @@ class NavigationUtils {
     }
     
     static func goToMain() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window, let vc = UIStoryboard(name: StoryboardNames.showUsers, bundle: nil).instantiateInitialViewController() else {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window, let vc = UIStoryboard(name: StoryboardNames.tabBar, bundle: nil).instantiateInitialViewController() else {
             return
         }
         

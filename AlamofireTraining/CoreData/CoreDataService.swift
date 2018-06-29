@@ -90,33 +90,37 @@ class CoreDataService {
         return managedObjectContext
     }
     
-    func saveTempContext(context: NSManagedObjectContext) throws {
+    func saveTempContext(context: NSManagedObjectContext, completion: @escaping (_ success: Bool)->()) throws {
         do {
             try context.save()
-            self.saveMainContext()
+            self.saveMainContext(completion: completion)
         } catch let error {
             print("Error saving in temp context")
+            completion(false)
             throw error
         }
     }
     
-    func saveMainContext() {
+    func saveMainContext(completion: @escaping (_ success: Bool)->()) {
         self.mainManagedObjectContext.perform {
             do {
                 try self.mainManagedObjectContext.save()
-                self.saveMasterContext()
+                self.saveMasterContext(completion: completion)
             } catch {
                 print("Error saving in main context")
+                completion(false)
             }
         }
     }
     
-    func saveMasterContext() {
+    func saveMasterContext(completion: @escaping (_ success: Bool)->()) {
         self.masterManagedObjectContext.perform {
             do {
                 try self.masterManagedObjectContext.save()
+                completion(true)
             } catch {
                 print("Error saving in master context")
+                completion(false)
             }
         }
     }
@@ -136,8 +140,17 @@ class CoreDataService {
             }
             
             do {
-                try CoreDataService.getSharedInstance().saveTempContext(context: context)
-                completion(coreDataObject)
+                try context.obtainPermanentIDs(for: [coreDataObject])
+                try CoreDataService.getSharedInstance().saveTempContext(context: context, completion: { (success) in
+                    if success {
+                        self.getObjectWith(objectID: coreDataObject.objectID) { (object) in
+                            completion(object)
+                        }
+                    } else {
+                        completion(nil)
+                    }
+                })
+                
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
                 //FIXME: Should return nil?
@@ -150,7 +163,9 @@ class CoreDataService {
         let context = CoreDataService.getSharedInstance().masterManagedObjectContext
         
         context.delete(object)
-        CoreDataService.getSharedInstance().saveMasterContext()
+        CoreDataService.getSharedInstance().saveMasterContext { (success) in
+            
+        }
         
     }
     
@@ -180,6 +195,17 @@ class CoreDataService {
         } catch let error as NSError {
             print("Description: \(error.localizedDescription) Code: \(error.code)")
             return 0
+        }
+    }
+    
+    func getObjectWith(objectID: NSManagedObjectID, completion: @escaping (_ object: NSManagedObject?)->()) {
+        self.masterManagedObjectContext.perform {
+            do {
+                let object = try self.masterManagedObjectContext.existingObject(with: objectID)
+                completion(object)
+            } catch {
+                completion(nil)
+            }
         }
     }
 }
