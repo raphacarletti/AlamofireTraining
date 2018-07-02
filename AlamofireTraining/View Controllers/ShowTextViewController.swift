@@ -23,7 +23,7 @@ class ShowTextViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.status = ViewControllerStatus.Text
         self.fetchTexts()
     }
     

@@ -127,14 +127,15 @@ class CoreDataService {
     
     func save(entityName: String, info dict: [String : Any], completion: @escaping (NSManagedObject?)->()) {
         let context = CoreDataService.getSharedInstance().getTempManagedObjectContext()
-//        context.perform {
-            guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-                print("Could not retrieve context")
-                completion(nil)
-                return
-            }
+        context.perform {
+            let entity = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
+//                print("Could not retrieve context")
+//                completion(nil)
+//                return
+//            }
             
-            let coreDataObject = NSManagedObject(entity: entity, insertInto: context)
+//            let coreDataObject = NSManagedObject(entity: entity, insertInto: context)
+            let coreDataObject = entity
             for (key, value) in dict {
                 coreDataObject.setValue(value, forKey: key)
             }
@@ -156,7 +157,7 @@ class CoreDataService {
                 //FIXME: Should return nil?
                 completion(nil)
             }
-//        }
+        }
     }
     
     func delete(object: NSManagedObject) {
@@ -170,7 +171,7 @@ class CoreDataService {
     }
     
     func fetch(entityName: String, predicate: NSPredicate? = nil, completion: @escaping ([NSManagedObject])->()) {
-        let context = CoreDataService.getSharedInstance().masterManagedObjectContext
+        let context = self.getTempManagedObjectContext()
         
         context.perform {
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
@@ -178,7 +179,13 @@ class CoreDataService {
             
             do {
                 let objects = try context.fetch(fetchRequest)
-                completion(objects)
+                self.getObjectsWith(objects: objects, completion: { (objects) in
+                    guard let objects = objects else {
+                        completion([])
+                        return
+                    }
+                    completion(objects)
+                })
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
                 completion([])
@@ -186,15 +193,53 @@ class CoreDataService {
         }
     }
     
-    func getEntityCount(entityName: String) -> Int {
+    func getEntityCount(entityName: String, completion: @escaping (Int)->()) {
         let context = CoreDataService.getSharedInstance().masterManagedObjectContext
-        
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
-        do {
-            return try context.count(for: fetchRequest)
-        } catch let error as NSError {
-            print("Description: \(error.localizedDescription) Code: \(error.code)")
-            return 0
+        context.perform {
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
+            do {
+                let numberOfEntity = try context.count(for: fetchRequest)
+                completion(numberOfEntity)
+            } catch let error as NSError {
+                print("Description: \(error.localizedDescription) Code: \(error.code)")
+                completion(-1)
+            }
+        }
+    }
+    
+    func deleteAll(completion: @escaping (Bool)->()) {
+        let context = self.getTempManagedObjectContext()
+        context.perform {
+            var deleteRequestArray : [NSBatchDeleteRequest] = []
+            deleteRequestArray.append(NSBatchDeleteRequest(fetchRequest: NSFetchRequest<NSFetchRequestResult>(entityName: UserCoreData.entityName)))
+            deleteRequestArray.append(NSBatchDeleteRequest(fetchRequest: NSFetchRequest<NSFetchRequestResult>(entityName: PersonCoreData.entityName)))
+            deleteRequestArray.append(NSBatchDeleteRequest(fetchRequest: NSFetchRequest<NSFetchRequestResult>(entityName: TextCoreData.entityName)))
+            
+            self.printAllCoreDataEntityCounts()
+            do {
+                for deleteRequest in deleteRequestArray {
+                    try context.execute(deleteRequest)
+                }
+                try self.saveTempContext(context: context, completion: { (success) in
+                    completion(success)
+                })
+            } catch let error as NSError {
+                print("Delete all error: \(error)")
+            }
+            self.printAllCoreDataEntityCounts()
+        }
+    }
+    
+    func printAllCoreDataEntityCounts() {
+        print("All Core Data Entities Count:")
+        self.getEntityCount(entityName: UserCoreData.entityName) { (number) in
+            print("User:         \(number)")
+        }
+        self.getEntityCount(entityName: PersonCoreData.entityName) { (number) in
+            print("Person:       \(number)")
+        }
+        self.getEntityCount(entityName: TextCoreData.entityName) { (number) in
+            print("Text:         \(number)")
         }
     }
     
@@ -206,6 +251,21 @@ class CoreDataService {
             } catch {
                 completion(nil)
             }
+        }
+    }
+    
+    func getObjectsWith(objects: [NSManagedObject], completion: @escaping (_ object: [NSManagedObject]?)->()) {
+        self.masterManagedObjectContext.perform {
+            var masterObjects: [NSManagedObject] = []
+            for managedObject in objects {
+                do {
+                    let object = try self.masterManagedObjectContext.existingObject(with: managedObject.objectID)
+                    masterObjects.append(object)
+                } catch {
+                    print("Error getting object from master context")
+                }
+            }
+            completion(masterObjects)
         }
     }
 }

@@ -109,7 +109,35 @@ class APIUserService {
                                 })
                             } else {
                                 TextCoreData.create(dict: json, completion: { (text) in
-                                    if let text = text {
+                                    if let _ = text {
+                                        completion(true, nil)
+                                    }
+                                })
+                            }
+                        })
+                    } else if let errors = json[AlamofireConstants.errors] as? [Any], let error = errors.first as? [String: Any], let message = error[AlamofireConstants.message] as? String {
+                        completion(false, message)
+                    }
+                }
+            }
+        }
+    }
+    
+    func getPerson(completion: @escaping (_ success: Bool, _ errorMessage: String?)->()) {
+        if let accessToken = self.currentUser?.accessToken {
+            let headers: HTTPHeaders = [AlamofireConstants.authorization: "Bearer \(accessToken)"]
+            let parameters: Parameters = [GetParameters.locale: "en_US"]
+            Alamofire.request("\(AlamofireConstants.baseUrl)\(AlamofireConstants.getPersonUrl)", method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
+                if let json = response.result.value as? [String: Any], let success = json[AlamofireConstants.success] as? Bool {
+                    if success {
+                        PersonCoreData.findIfExists(dict: json, completion: { (text) in
+                            if let text = text {
+                                text.merge(dict: json, completion: { (didChange) in
+                                    completion(true, nil)
+                                })
+                            } else {
+                                PersonCoreData.create(dict: json, completion: { (text) in
+                                    if let _ = text {
                                         completion(true, nil)
                                     }
                                 })

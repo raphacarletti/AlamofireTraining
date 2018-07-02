@@ -30,6 +30,7 @@ struct AlamofireConstants {
     static let signInUrl = "api/login/"
     static let logoutUrl = "api/logout/"
     static let getTextUrl = "api/get/text/"
+    static let getPersonUrl = "api/get/person/"
     static let authorization = "Authorization"
     static let jsonResponse = "application/json"
     static let success = "success"
@@ -104,6 +105,41 @@ struct UserDefaultsKey {
 
 struct ImageConstants {
     static let textIcon = UIImage(named: "text_icon")
+    static let personIcon = UIImage(named: "person_icon")
+}
+
+struct PersonCoreDataKey {
+    static let address = "address"
+    static let bio = "bio"
+    static let city = "city"
+    static let country = "country"
+    static let email = "email"
+    static let firstName = "firstName"
+    static let ipAddress = "ipAddress"
+    static let lastName = "lastName"
+    static let latitude = "latitude"
+    static let longitude = "longitude"
+    static let name = "name"
+    static let phoneNumber = "phoneNumber"
+    static let timeZone = "timeZone"
+    static let title = "title"
+}
+
+struct PersonCoreDataAPIKeys {
+    static let address = "address"
+    static let bio = "bio"
+    static let city = "city"
+    static let country = "country"
+    static let email = "email"
+    static let firstName = "first_name"
+    static let ipAddress = "ip_address"
+    static let lastName = "last_name"
+    static let latitude = "latitude"
+    static let longitude = "longitude"
+    static let name = "name"
+    static let phoneNumber = "phone_number"
+    static let timeZone = "timezone"
+    static let title = "title"
 }
 
 

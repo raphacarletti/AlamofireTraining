@@ -24,6 +24,9 @@
 		6D380A8020E561E70011D437 /* APIUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D380A7F20E561E70011D437 /* APIUserService.swift */; };
 		6D380A8220E575920011D437 /* ShowTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D380A8120E575920011D437 /* ShowTextViewController.swift */; };
 		6D380A8420E575B50011D437 /* ShowText.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D380A8320E575B50011D437 /* ShowText.storyboard */; };
+		6D926FF220EA63CC0099DA87 /* ShowPerson.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D926FF120EA63CC0099DA87 /* ShowPerson.storyboard */; };
+		6D926FF420EA64F30099DA87 /* ShowPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D926FF320EA64F30099DA87 /* ShowPersonViewController.swift */; };
+		6D926FF620EA66A10099DA87 /* PersonCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D926FF520EA66A10099DA87 /* PersonCoreData.swift */; };
 		6DF248C620E54AE600846C46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF248C520E54AE600846C46 /* AppDelegate.swift */; };
 		6DF248C820E54AE600846C46 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF248C720E54AE600846C46 /* ViewController.swift */; };
 		6DF248CB20E54AE600846C46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DF248C920E54AE600846C46 /* Main.storyboard */; };
@@ -49,6 +52,9 @@
 		6D380A7F20E561E70011D437 /* APIUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUserService.swift; sourceTree = "<group>"; };
 		6D380A8120E575920011D437 /* ShowTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTextViewController.swift; sourceTree = "<group>"; };
 		6D380A8320E575B50011D437 /* ShowText.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShowText.storyboard; sourceTree = "<group>"; };
+		6D926FF120EA63CC0099DA87 /* ShowPerson.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShowPerson.storyboard; sourceTree = "<group>"; };
+		6D926FF320EA64F30099DA87 /* ShowPersonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPersonViewController.swift; sourceTree = "<group>"; };
+		6D926FF520EA66A10099DA87 /* PersonCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonCoreData.swift; sourceTree = "<group>"; };
 		6DF248C220E54AE600846C46 /* AlamofireTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlamofireTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF248C520E54AE600846C46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DF248C720E54AE600846C46 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +95,7 @@
 				6D380A6D20E54E990011D437 /* Login.storyboard */,
 				6D380A8320E575B50011D437 /* ShowText.storyboard */,
 				6D1E58D620E6D01900C16796 /* TabBar.storyboard */,
+				6D926FF120EA63CC0099DA87 /* ShowPerson.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -102,6 +109,7 @@
 				6D036D7220E66C750008F6EF /* LoginViewController.swift */,
 				6D1E58D820E6D13900C16796 /* BaseViewController.swift */,
 				6D1E58DB20E6D59D00C16796 /* FullTextViewController.swift */,
+				6D926FF320EA64F30099DA87 /* ShowPersonViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -129,6 +137,7 @@
 				6D380A7A20E557750011D437 /* UserCoreData.swift */,
 				6D380A7C20E558A40011D437 /* CoreDataService.swift */,
 				6D1E58D420E6C84200C16796 /* TextCoreData.swift */,
+				6D926FF520EA66A10099DA87 /* PersonCoreData.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -260,6 +269,7 @@
 				6D380A8420E575B50011D437 /* ShowText.storyboard in Resources */,
 				6DF248D320E54AE800846C46 /* LaunchScreen.storyboard in Resources */,
 				6DF248D020E54AE800846C46 /* Assets.xcassets in Resources */,
+				6D926FF220EA63CC0099DA87 /* ShowPerson.storyboard in Resources */,
 				6D1E58D720E6D01900C16796 /* TabBar.storyboard in Resources */,
 				6DF248CB20E54AE600846C46 /* Main.storyboard in Resources */,
 			);
@@ -339,8 +349,10 @@
 				6D380A7020E54F470011D437 /* RegisterViewController.swift in Sources */,
 				6D380A7920E556BD0011D437 /* CoreDataParseable.swift in Sources */,
 				6D380A7620E551440011D437 /* UIColorExtension.swift in Sources */,
+				6D926FF620EA66A10099DA87 /* PersonCoreData.swift in Sources */,
 				6D380A7D20E558A40011D437 /* CoreDataService.swift in Sources */,
 				6D1E58DC20E6D59D00C16796 /* FullTextViewController.swift in Sources */,
+				6D926FF420EA64F30099DA87 /* ShowPersonViewController.swift in Sources */,
 				6D380A7B20E557750011D437 /* UserCoreData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,10 +502,7 @@
 				DEVELOPMENT_TEAM = 98552BXM3C;
 				INFOPLIST_FILE = AlamofireTraining/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.raphael.AlamofireTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -510,10 +519,7 @@
 				DEVELOPMENT_TEAM = 98552BXM3C;
 				INFOPLIST_FILE = AlamofireTraining/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.raphael.AlamofireTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
