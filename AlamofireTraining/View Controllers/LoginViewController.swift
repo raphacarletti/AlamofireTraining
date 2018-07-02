@@ -69,10 +69,10 @@ class LoginViewController: UIViewController {
         
         let parameters : Parameters = [SignInParameters.email: email, SignInParameters.password: password]
         APIUserService.getSharedInstance().signInUser(parameters: parameters) { (success, errorMessage, uid) in
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 if success, let uid = uid {
                     UserDefaults.standard.set(uid, forKey: UserDefaultsKey.currentUserUid)
-                    let alert = UIAlertController(title: "Deu bom", message: "Meus parabens", preferredStyle: UIAlertControllerStyle.alert)
+                    let alert = UIAlertController(title: "Success", message: ":)", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) in
                         NavigationUtils.goToMain()
                     }))

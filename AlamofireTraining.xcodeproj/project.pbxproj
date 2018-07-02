@@ -10,6 +10,7 @@
 		58AD4503E49D14ED0B498740 /* Pods_AlamofireTraining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA75BD22C888C56F40166BE4 /* Pods_AlamofireTraining.framework */; };
 		6D036D7320E66C750008F6EF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D036D7220E66C750008F6EF /* LoginViewController.swift */; };
 		6D036D7620E675F20008F6EF /* NavigationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D036D7520E675F20008F6EF /* NavigationUtils.swift */; };
+		6D1C213020EAC33500E0CB31 /* FullPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C212F20EAC33500E0CB31 /* FullPersonViewController.swift */; };
 		6D1E58D520E6C84200C16796 /* TextCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1E58D420E6C84200C16796 /* TextCoreData.swift */; };
 		6D1E58D720E6D01900C16796 /* TabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D1E58D620E6D01900C16796 /* TabBar.storyboard */; };
 		6D1E58D920E6D13900C16796 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1E58D820E6D13900C16796 /* BaseViewController.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		6D036D7220E66C750008F6EF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6D036D7520E675F20008F6EF /* NavigationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationUtils.swift; sourceTree = "<group>"; };
+		6D1C212F20EAC33500E0CB31 /* FullPersonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPersonViewController.swift; sourceTree = "<group>"; };
 		6D1E58D420E6C84200C16796 /* TextCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCoreData.swift; sourceTree = "<group>"; };
 		6D1E58D620E6D01900C16796 /* TabBar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
 		6D1E58D820E6D13900C16796 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				6D1E58D820E6D13900C16796 /* BaseViewController.swift */,
 				6D1E58DB20E6D59D00C16796 /* FullTextViewController.swift */,
 				6D926FF320EA64F30099DA87 /* ShowPersonViewController.swift */,
+				6D1C212F20EAC33500E0CB31 /* FullPersonViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				6D1E58DC20E6D59D00C16796 /* FullTextViewController.swift in Sources */,
 				6D926FF420EA64F30099DA87 /* ShowPersonViewController.swift in Sources */,
 				6D380A7B20E557750011D437 /* UserCoreData.swift in Sources */,
+				6D1C213020EAC33500E0CB31 /* FullPersonViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,7 +506,10 @@
 				DEVELOPMENT_TEAM = 98552BXM3C;
 				INFOPLIST_FILE = AlamofireTraining/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.raphael.AlamofireTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -519,7 +526,10 @@
 				DEVELOPMENT_TEAM = 98552BXM3C;
 				INFOPLIST_FILE = AlamofireTraining/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.raphael.AlamofireTraining;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

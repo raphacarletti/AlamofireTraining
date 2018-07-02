@@ -46,7 +46,9 @@ class ShowPersonViewController: BaseViewController {
         CoreDataService.getSharedInstance().fetch(entityName: PersonCoreData.entityName) { (people) in
             if let people = people as? [PersonCoreData] {
                 self.people = people
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
         }
     }
@@ -57,7 +59,15 @@ class ShowPersonViewController: BaseViewController {
 }
 
 extension ShowPersonViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.setSelected(false, animated: true)
+        let person = self.people[indexPath.row]
+        let storyboard = UIStoryboard(name: StoryboardNames.showPerson, bundle: nil)
+        if let vc = storyboard.instantiateViewController(withIdentifier: ViewControllerName.fullPerson) as? FullPersonViewController {
+            vc.person = person
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 extension ShowPersonViewController: UITableViewDataSource {

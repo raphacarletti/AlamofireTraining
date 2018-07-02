@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let uid = UserDefaults.standard.value(forKey: UserDefaultsKey.currentUserUid) as? Int16 {
             APIUserService.getSharedInstance().getCurrentUser(uid: uid) { (success) in
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     if success {
                         NavigationUtils.goToMain()
                     } else {

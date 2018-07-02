@@ -12,12 +12,14 @@ import UIKit
 struct StoryboardNames {
     static let login = "Login"
     static let showText = "ShowText"
+    static let showPerson = "ShowPerson"
     static let tabBar = "TabBar"
 }
 
 struct ViewControllerName {
     static let register = "RegisterViewController"
     static let fullText = "FullTextViewController"
+    static let fullPerson = "FullPersonViewController"
 }
 
 struct TableCell {
